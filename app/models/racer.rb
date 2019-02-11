@@ -1,4 +1,6 @@
 class Racer
+  include ActiveModel::Model
+
   attr_accessor :id
   attr_accessor :number
   attr_accessor :first_name
@@ -30,6 +32,18 @@ class Racer
   def initialize(params = {})
     self.id = params[:id] || params[:_id].to_s
     self.attributes = params
+  end
+
+  def persisted?
+    id.present?
+  end
+
+  def created_at
+    nil
+  end
+
+  def updated_at
+    nil
   end
 
   def attributes=(params)
