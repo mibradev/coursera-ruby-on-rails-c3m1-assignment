@@ -27,6 +27,21 @@ class Racer
       result = collection.find(_id: BSON::ObjectId.from_string(id)).first
       new(result) if result
     end
+
+    def paginate(params)
+      page = (params[:page] || 1).to_i
+      limit = (params[:per_page] || 30).to_i
+      skip = (page - 1) * limit
+      total = collection.count
+
+      racers = all({}, { number: 1 }, skip, limit).reduce([]) do |racers, doc|
+        racers << new(doc)
+      end
+
+      WillPaginate::Collection.create(page, limit, total) do |pager|
+        pager.replace(racers)
+      end
+    end
   end
 
   def initialize(params = {})
