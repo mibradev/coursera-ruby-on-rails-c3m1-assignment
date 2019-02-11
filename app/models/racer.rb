@@ -39,11 +39,9 @@ class Racer
   end
 
   def created_at
-    nil
   end
 
   def updated_at
-    nil
   end
 
   def attributes=(params)
